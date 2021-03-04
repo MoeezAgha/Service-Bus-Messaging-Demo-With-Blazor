@@ -1,0 +1,52 @@
+﻿@page "/"
+
+@using ServiceBus.Model
+@using ServiceBusMessagingDemo.Areas.Model
+@inject ServiceBusMessagingDemo.Services.IQueueService queue
+
+
+<EditForm Model="@user" OnValidSubmit="@PublishMessage">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+  
+
+
+
+
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <InputText class="form-control" id="email" @bind-Value="user.email" />
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="Username">Username</label>
+            <InputText class="form-control" id="Username" DisplayName="Username" @bind-Value="user.Username" />
+        </div>
+       
+
+
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+
+
+
+
+@code {
+
+    private User user = new User();
+
+    private async Task PublishMessage()
+    {
+
+        await queue.SendMessageAsync(user, "servicebusmessagingdemo");
+        user = new User();
+    }
+
+
+
+
+
+
+}
