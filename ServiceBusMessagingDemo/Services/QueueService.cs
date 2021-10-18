@@ -1,8 +1,6 @@
 ﻿using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -18,7 +16,7 @@ namespace ServiceBusMessagingDemo.Services
             this.configuration = configuration;
         }
 
-        public async Task SendMessageAsync<T>(T serviceBusMessage, string queueName)//servicebusmessagingdemo
+        public async Task SendMessageAsync<T>(T serviceBusMessage, string queueName)
         {
             try
             {
@@ -32,8 +30,6 @@ namespace ServiceBusMessagingDemo.Services
 
                 throw;
             }
-         
-
         }
     }
 }
