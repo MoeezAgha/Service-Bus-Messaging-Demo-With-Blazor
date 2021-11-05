@@ -1,10 +1,7 @@
 ﻿using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
+using ServiceBus.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ServiceBusMessagingDemo.Services
@@ -18,13 +15,13 @@ namespace ServiceBusMessagingDemo.Services
             this.configuration = configuration;
         }
 
-        public async Task SendMessageAsync<T>(T serviceBusMessage, string queueName)//servicebusmessagingdemo
+        public async Task SendMessageAsync<T>(T serviceBusMessage, string queueName)
         {
             try
             {
                 var queueClient = new QueueClient(configuration.GetConnectionString("ConnectionString_AzureServiceBus"), queueName);
-                string messageBody = JsonSerializer.Serialize(serviceBusMessage);
-                var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+
+                var message = serviceBusMessage.ToMessage();
                 await queueClient.SendAsync(message);
             }
             catch (Exception e)
@@ -32,8 +29,6 @@ namespace ServiceBusMessagingDemo.Services
 
                 throw;
             }
-         
-
         }
     }
 }
